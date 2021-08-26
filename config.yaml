@@ -20,7 +20,7 @@ mysql:
   port: 3306
   user: root
   password: root
-  database: test
+  database: fund_analye_system
   charset: utf8mb4 # 要支持完整的UTF-8编码,需设置成: utf8mb4
   parseTime: true # 解析time.Time类型
   timeZone: Local # 时区,若设置 Asia/Shanghai,需写成: Asia%2fShanghai
@@ -33,7 +33,7 @@ mysql:
   ignoreRecordNotFoundError: true # 是否忽略ErrRecordNotFound(未查到记录错误)
   gorm: # gorm配置项disableForeignKeyConstraintWhenMigrating
     skipDefaultTx: false # 是否跳过默认事务
-    tablePrefix: "app_" #表前缀
+    tablePrefix: "fas_" #表前缀
     singularTable: true # 是否使用单数表名(默认复数)，启用后，User结构体表将是user
     coverLogger: true # 是否覆盖默认logger
     prepareStmt: false # 执行任何SQL时都会创建一个prepared statement并将其缓存，以提高后续的效率

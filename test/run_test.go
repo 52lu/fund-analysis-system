@@ -4,15 +4,23 @@ package test
 import (
 	"52lu/fund-analye-system/global"
 	"52lu/fund-analye-system/initialize"
+	"52lu/fund-analye-system/utils"
 	"fmt"
-	"strings"
 	"testing"
 )
 
 
 func TestRun(t *testing.T) {
+	existDatabase()
+}
+
+func existDatabase()  {
 	initialize.SetLoadInit()
-	fmt.Printf("%+v\n",global.GvaConfig)
-	str := "Phone格式不正确！"
-	fmt.Println("str = ",strings.ToLower(str))
+	var  databases []string
+	global.GvaMysqlClient.Raw("show DATABASES").Scan(&databases)
+	dbName := global.GvaConfig.Mysql.Database
+	if _, ok := utils.ExistSliceStr(dbName, databases); !ok {
+		sql := fmt.Sprintf("create database `%s` character set utf8mb4 collate utf8mb4_bin",dbName)
+		global.GvaMysqlClient.Exec(sql)
+	}
 }
