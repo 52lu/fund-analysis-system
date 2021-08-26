@@ -5,7 +5,7 @@ app:
   env: dev
 log:
   path: ./logs # 日志文件目录
-  filePrefix: gin # 日志文件前缀
+  filePrefix: fasystem # 日志文件前缀
   fileFormat: 2006-01-02 # 日志文件名格式
   level: info # 最低记录级别
   outFormat: json # json/console
