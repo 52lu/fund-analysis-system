@@ -2,7 +2,6 @@ package main
 
 import (
 	"52lu/fund-analye-system/global"
-	"52lu/fund-analye-system/initialize"
 	"52lu/fund-analye-system/middleware"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -36,7 +35,7 @@ func RunServer() {
 	// 获取自定义http配置
 	httpServer := getCustomHttpServer(engine)
 	// 注册路由
-	initialize.RegisterRouters(engine)
+	registerRouters(engine)
 	// 打印服务信息
 	printServerInfo()
 	// 启动服务

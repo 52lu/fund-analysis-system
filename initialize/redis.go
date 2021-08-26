@@ -7,8 +7,8 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-// InitRedis 初始化redis客户端
-func InitRedis()  {
+// initRedis 初始化redis客户端
+func initRedis()  {
 	if !global.GvaConfig.Redis.Enable {
 		return
 	}

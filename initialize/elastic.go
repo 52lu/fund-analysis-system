@@ -12,7 +12,7 @@ import (
 )
 
 // 创建es客户端
-func InitES() {
+func initElastic() {
 	// 配置
 	elasticConfig := global.GvaConfig.Elastic
 	if elasticConfig.Enable {

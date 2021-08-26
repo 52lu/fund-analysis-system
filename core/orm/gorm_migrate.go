@@ -1,7 +1,7 @@
 /**
  * @Description mysql迁移
  **/
-package initialize
+package orm
 
 import (
 	"52lu/fund-analye-system/global"

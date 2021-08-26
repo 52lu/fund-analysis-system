@@ -7,7 +7,7 @@ import (
 )
 
 // 定时任务管理
-func InitCron()  {
+func initCron()  {
 	if !global.GvaConfig.Cron.Enable {
 		return
 	}
