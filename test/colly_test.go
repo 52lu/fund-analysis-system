@@ -1,18 +1,15 @@
 package test
 
 import (
+	"52lu/fund-analye-system/service/crawl"
+	"encoding/json"
 	"fmt"
-	"github.com/gocolly/colly/v2"
 	"testing"
 )
 
-func TestXueQiu(t *testing.T) {
-	collector := colly.NewCollector()
-	collector.OnHTML("table[class='quote-info']", func(element *colly.HTMLElement) {
-		fmt.Println(element.Text)
-	})
-	err := collector.Visit("https://xueqiu.com/S/SH688169")
-	if err != nil {
-		t.Error(err)
-	}
+func TestFundBasis(t *testing.T) {
+	fund := &crawl.FundBaseCrawl{}
+	fund.GetFundBasis("005609")
+	marshal, _ := json.Marshal(fund)
+	fmt.Printf("fund:%s\n",marshal)
 }
