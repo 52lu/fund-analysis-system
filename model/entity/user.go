@@ -1,7 +1,7 @@
 /**
  * @Description 用户相关的实体
  **/
-package user
+package entity
 
 import (
 	"52lu/fund-analye-system/global"

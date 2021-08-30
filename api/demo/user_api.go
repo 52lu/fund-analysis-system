@@ -4,7 +4,7 @@ import (
 	"52lu/fund-analye-system/global"
 	"52lu/fund-analye-system/internal"
 	"52lu/fund-analye-system/internal/validate"
-	user2 "52lu/fund-analye-system/model/entity/user"
+	"52lu/fund-analye-system/model/entity"
 	"52lu/fund-analye-system/model/request/user"
 	"52lu/fund-analye-system/model/response"
 	userService "52lu/fund-analye-system/service/user"
@@ -51,7 +51,7 @@ func Login(ctx *gin.Context) {
 		return
 	}
 	// 调用登录服务
-	userRecord := user2.User{Phone: loginParam.Phone, Password: loginParam.Password}
+	userRecord := entity.User{Phone: loginParam.Phone, Password: loginParam.Password}
 	if err := userService.LoginPwd(&userRecord); err != nil {
 		global.GvaLogger.Error("登录失败:", zap.Any("user", userRecord))
 		response.Error(ctx, "登录失败,账号或者密码错误!")

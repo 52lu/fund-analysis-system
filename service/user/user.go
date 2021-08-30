@@ -5,7 +5,7 @@ package user
 
 import (
 	"52lu/fund-analye-system/global"
-	user2 "52lu/fund-analye-system/model/entity/user"
+	"52lu/fund-analye-system/model/entity"
 	"52lu/fund-analye-system/model/request/user"
 	"gorm.io/gorm"
 )
@@ -14,7 +14,7 @@ import (
  * @description: 账户密码登录
  * @param user
  */
-func LoginPwd(user *user2.User) error {
+func LoginPwd(user *entity.User) error {
 	//校验账户和密码
 	result := global.GvaMysqlClient.Where("phone=? and password=?", user.Phone, user.Password).
 		First(user)
@@ -22,7 +22,7 @@ func LoginPwd(user *user2.User) error {
 		return result.Error
 	}
 	// 查询用户信息
-	userInfo := user2.UserInfo{}
+	userInfo := entity.UserInfo{}
 	result = global.GvaMysqlClient.Where("uid = ?", user.ID).First(&userInfo)
 	if result.Error != nil {
 		return result.Error
@@ -32,8 +32,8 @@ func LoginPwd(user *user2.User) error {
 }
 
 // 注册用户
-func Register(param user.RegisterParam) (*user2.User, error) {
-	user := user2.User{
+func Register(param user.RegisterParam) (*entity.User, error) {
+	user := entity.User{
 		NickName: param.NickName,
 		Phone:    param.Phone,
 		Password: param.Password,
@@ -43,7 +43,7 @@ func Register(param user.RegisterParam) (*user2.User, error) {
 			global.GvaLogger.Sugar().Errorf("新增用户失败: %s", err)
 			return err
 		}
-		userInfo := user2.UserInfo{
+		userInfo := entity.UserInfo{
 			Uid:      user.ID,
 			Birthday: param.Birthday,
 			Address:  param.Address,

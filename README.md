@@ -30,6 +30,6 @@
 
 ![](https://gitee.com/QingHui/picGo-img-bed/raw/master/img/20210826225841.png)
 
-## 5.开发状态
+## 5.项目状态
 
-:exclamation:开发中.....
+#### :exclamation:开发中

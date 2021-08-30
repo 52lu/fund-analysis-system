@@ -2,8 +2,8 @@
 package initialize
 
 import (
-	"52lu/fund-analye-system/internal/orm"
 	"52lu/fund-analye-system/global"
+	"52lu/fund-analye-system/model/migrate"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -53,7 +53,7 @@ func initGorm() {
 	global.GvaMysqlClient = client
 	// 是否调用数据迁移
 	if mysqlConfig.AutoMigrate {
-		orm.AutoMigrate()
+		migrate.AutoMigrate()
 	}
 }
 
