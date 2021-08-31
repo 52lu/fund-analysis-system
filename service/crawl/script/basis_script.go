@@ -1,5 +1,5 @@
 // crawl: 基金基础信息
-package crawl
+package script
 
 import (
 	"52lu/fund-analye-system/global"
@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+// 定义结构体对应
 type FundBaseCrawl struct {
 	Code            string `selector:"tr:nth-child(2) > td:nth-of-type(1)"`
 	FullName        string `selector:"tr:nth-child(1) > td:nth-of-type(1)"`
@@ -55,7 +56,7 @@ func (f *FundBaseCrawl) format() {
 	// 发布时间
 	f.ReleaseDate = replaceDateChinese(f.ReleaseDate)
 	// 成立日期
-	f.EstablishDate = replaceDateChinese(strings.Split(f.EstablishDate, "/")[0])
+	f.EstablishDate = strings.TrimSpace(replaceDateChinese(strings.Split(f.EstablishDate, "/")[0]))
 	// 成立规模
 	f.EstablishShares = utils.ExtractNumberFromString(replaceDateChinese(strings.Split(f.EstablishShares, "/")[1]))
 	// 管理费率
