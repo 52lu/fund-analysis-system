@@ -61,4 +61,4 @@ elastic:
   logPre: ES-
 cron:
   # 是否开启
-  enable: false
+  enable: true

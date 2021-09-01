@@ -21,11 +21,11 @@ func initCron() {
 // 添加Job任务
 func addJob(c *cron.Cron) {
 	// 测试任务
-	_, _ = c.AddJob("@every 1s", crontab.DemoCron{})
+	//_, _ = c.AddJob("@every 1s", crontab.DemoCron{})
 	// 爬取每日基金排行榜单
-	//_, _ = c.AddJob("0 30 16 */1 * *", crontab.FundTopCron{})
-	// 为了测试，先写成 每10s一次
- 	_, _ = c.AddJob("@every 10s", crontab.FundTopCron{})
+	_, _ = c.AddJob("0 30 16 */1 * *", crontab.FundTopCron{})
+	//为了测试，先写成 每10s一次
+ 	//_, _ = c.AddJob("@every 10s", crontab.FundTopCron{})
 
 }
 
