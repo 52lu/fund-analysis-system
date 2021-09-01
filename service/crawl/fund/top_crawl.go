@@ -2,11 +2,13 @@ package fund
 
 import (
 	"52lu/fund-analye-system/global"
+	fundDao "52lu/fund-analye-system/model/dao/fund"
 	"52lu/fund-analye-system/model/entity"
 	"52lu/fund-analye-system/service/crawl"
 	"52lu/fund-analye-system/utils"
 	"fmt"
 	"github.com/gocolly/colly/v2"
+	"go.uber.org/zap"
 	"strconv"
 	"strings"
 	"time"
@@ -29,12 +31,29 @@ type fundItem struct {
 	CreateChange     string `selector:"td:nth-of-type(13)"`
 }
 
-type TopCrawl struct {
+type TopCrawlService struct {
 	Item []*fundItem `selector:"tr"`
 }
 
+// 检查该日期是否已经入库
+func (f *TopCrawlService) ExistTopDate() bool {
+	if len(f.Item) == 0 {
+		return false
+	}
+	format := time.Now().Format("2006")
+	topDate := fmt.Sprintf("%s-%s", format, f.Item[1].TopDate)
+	fTopEntity, err := fundDao.FindLastOneByDate(topDate)
+	if err != nil {
+		global.GvaLogger.Error("查询数据库异常", zap.String("error", err.Error()))
+	}
+	if fTopEntity.ID != 0 {
+		return true
+	}
+	return false
+}
+
 // CrawlHtml 抓取取基金基本信息
-func (f *TopCrawl) CrawlHtml() {
+func (f *TopCrawlService) CrawlHtml() {
 	collector := colly.NewCollector(
 		colly.UserAgent(crawl.UserAgent),
 	)
@@ -56,7 +75,7 @@ func (f *TopCrawl) CrawlHtml() {
 	// 获取响应
 	collector.OnResponse(func(response *colly.Response) {
 		// 将返回中的html中所有的%去掉
-		newBody := strings.ReplaceAll(string(response.Body),"%","")
+		newBody := strings.ReplaceAll(string(response.Body), "%", "")
 		response.Body = []byte(newBody)
 	})
 	// 爬取收益排行榜,(默认是按照近一年的排行)
@@ -67,7 +86,7 @@ func (f *TopCrawl) CrawlHtml() {
 }
 
 // ConvertEntity 格式化类型
-func (f *TopCrawl) ConvertEntity() []entity.FundDayTop {
+func (f *TopCrawlService) ConvertEntity() []entity.FundDayTop {
 	var topList []entity.FundDayTop
 	for _, item := range f.Item {
 		if item.FundCode == "" {
@@ -77,7 +96,7 @@ func (f *TopCrawl) ConvertEntity() []entity.FundDayTop {
 		fundTmp.FundCode = item.FundCode
 		// 格式化日期
 		format := time.Now().Format("2006")
-		fundTmp.TopDate = fmt.Sprintf("%s-%s",format,item.TopDate)
+		fundTmp.TopDate = fmt.Sprintf("%s-%s", format, item.TopDate)
 		// 转换编码
 		fundTmp.FundName, _ = utils.GbkToUtf8(item.FundName)
 		// 字符串转浮点型

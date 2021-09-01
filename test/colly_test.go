@@ -19,7 +19,7 @@ func TestFundBasis(t *testing.T) {
 }
 
 func TestFundTop(t *testing.T) {
-	f := &fund.TopCrawl{}
+	f := &fund.TopCrawlService{}
 	f.CrawlHtml()
 	convertEntity := f.ConvertEntity()
 	fmt.Printf("结果: %+v\n",convertEntity)

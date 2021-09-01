@@ -2,8 +2,8 @@
 package test
 
 import (
+	"52lu/fund-analye-system/crontab"
 	"52lu/fund-analye-system/initialize"
-	"52lu/fund-analye-system/service/crontab"
 	"testing"
 )
 

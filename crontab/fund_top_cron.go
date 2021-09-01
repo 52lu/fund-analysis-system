@@ -9,13 +9,15 @@ import (
 type FundTopCron struct {}
 
 func (c FundTopCron) Run()  {
-	f := &fund.TopCrawl{}
+	f := &fund.TopCrawlService{}
 	// 爬取网页
 	f.CrawlHtml()
 	// 转换数据
 	fundDayTopList := f.ConvertEntity()
 	// 入库
-	result := global.GvaMysqlClient.Create(fundDayTopList)
-	fmt.Println("保存错误:", result.Error)
-	fmt.Println("保存结果:", result.RowsAffected)
+	if !f.ExistTopDate() {
+		result := global.GvaMysqlClient.Create(fundDayTopList)
+		fmt.Println("保存错误:", result.Error)
+		fmt.Println("保存结果:", result.RowsAffected)
+	}
 }
