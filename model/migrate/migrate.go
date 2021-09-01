@@ -41,6 +41,8 @@ func fundMigrate()  {
 	_ = setTableOption("基金表").AutoMigrate(&entity.FundBasis{})
 	// 基金持仓表
 	_ = setTableOption("基金持仓表").AutoMigrate(&entity.FundStock{})
+	// 基金每日排行
+	_ = setTableOption("基金每日排行").AutoMigrate(&entity.FundDayTop{})
 }
 
 // 股票相关表

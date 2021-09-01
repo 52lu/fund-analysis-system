@@ -1,6 +1,3 @@
-/**
- * @Description 操作用户表
- **/
 package dao
 
 import (
@@ -12,7 +9,7 @@ type UserDao struct {
 	Uid uint
 }
 
-// 查询用户信息
+// FindUser 查询用户信息
 func (u *UserDao) FindUser() (*entity.User, error) {
 	var user entity.User
 	//校验账户和密码

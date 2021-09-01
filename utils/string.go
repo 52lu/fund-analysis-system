@@ -1,6 +1,12 @@
 package utils
 
-import "regexp"
+import (
+	"bytes"
+	"golang.org/x/text/encoding/simplifiedchinese"
+	"golang.org/x/text/transform"
+	"io/ioutil"
+	"regexp"
+)
 
 // 提取字符串中的数字
 func ExtractNumberFromString(str string) string {
@@ -15,3 +21,14 @@ func ExtractNumberFromString(str string) string {
 	}
 	return numberString
 }
+
+// GbkToUtf8 GBK转成UTF8
+func GbkToUtf8(str string) (string, error) {
+	reader := transform.NewReader(bytes.NewReader([]byte(str)), simplifiedchinese.GBK.NewDecoder())
+	all, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return "", err
+	}
+	return string(all), nil
+}
+
