@@ -13,7 +13,7 @@ import (
 	"strings"
 	"time"
 )
-
+// 对应每一行的基金信息
 type fundItem struct {
 	FundCode         string `selector:"td:nth-of-type(1)"`
 	FundName         string `selector:"td:nth-of-type(2)"`
@@ -30,7 +30,6 @@ type fundItem struct {
 	CurrentChange    string `selector:"td:nth-of-type(12)"`
 	CreateChange     string `selector:"td:nth-of-type(13)"`
 }
-
 type TopCrawlService struct {
 	Item []*fundItem `selector:"tr"`
 }
@@ -52,7 +51,7 @@ func (f *TopCrawlService) ExistTopDate() bool {
 	return false
 }
 
-// CrawlHtml 抓取取基金基本信息
+// CrawlHtml 抓取网页信息
 func (f *TopCrawlService) CrawlHtml() {
 	collector := colly.NewCollector(
 		colly.UserAgent(crawl.UserAgent),
@@ -60,12 +59,12 @@ func (f *TopCrawlService) CrawlHtml() {
 	// 设置Header
 	collector.OnRequest(func(request *colly.Request) {
 		request.Headers.Set("Accept-Language", "zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7")
-
 	})
 	collector.OnError(func(response *colly.Response, err error) {
 		global.GvaLogger.Sugar().Errorf("基金排行榜,信息获取失败: %s", err)
 		return
 	})
+	// 选中id=tblite_hh的table,使用Unmarshal方法会把每行数据，自动映射结构体
 	collector.OnHTML("#tblite_hh", func(element *colly.HTMLElement) {
 		err := element.Unmarshal(f)
 		if err != nil {
