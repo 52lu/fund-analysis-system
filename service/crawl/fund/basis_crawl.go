@@ -25,6 +25,8 @@ type BasisCrawl struct {
 	EstablishDate   string `selector:"tr:nth-child(3) > td:nth-of-type(2)"`
 	EstablishShares string `selector:"tr:nth-child(3) > td:nth-of-type(2)"`
 	Company         string `selector:"tr:nth-child(5) > td:nth-of-type(1)"`
+	Manager         string `selector:"tr:nth-child(6) > td:nth-of-type(1)"`
+	ManagerDesc     string `selector:"tr:nth-child(6) > td:nth-of-type(1) > a[href]" attr:"href"`
 	ManageFeeRate   string `selector:"tr:nth-child(7) > td:nth-of-type(1)"`
 	CustodyFeeRate  string `selector:"tr:nth-child(7) > td:nth-of-type(2)"`
 	SaleFeeRate     string `selector:"tr:nth-child(8) > td:nth-of-type(1)"`
@@ -76,7 +78,7 @@ func BatchBasicCrawl() []entity.FundBasis {
 // 分组抓取，防止并发过大，被拒绝访问
 func crawlByGroup(basicResults []dao.FilterBasicResult, c chan<- entity.FundBasis) {
 	// 分组抓取
-	groupNum := 10
+	groupNum := 15
 	fundCodeGroup := splitFundBasicList(basicResults, groupNum)
 	// 并发请求抓取
 	var wg sync.WaitGroup
@@ -140,7 +142,7 @@ func (f *BasisCrawl) ConvertToEntity() entity.FundBasis {
 	var fundBaseEntity entity.FundBasis
 	// 部分基金code解析为: 006049（前端）、006050（后端）,如：https://fundf10.eastmoney.com/jbgk_006049.html
 	if strings.Contains(f.Code, "、") {
-		f.Code = strings.Split(f.Code,"、")[0]
+		f.Code = strings.Split(f.Code, "、")[0]
 	}
 	fundBaseEntity.Code = utils.ExtractNumberFromString(f.Code)
 	fundBaseEntity.FullName = f.FullName
@@ -149,7 +151,11 @@ func (f *BasisCrawl) ConvertToEntity() entity.FundBasis {
 	typeInfo := strings.Split(f.Type, "-")
 	fundBaseEntity.MainType = typeInfo[0]
 	fundBaseEntity.SubType = typeInfo[1]
+	// 基金公司
 	fundBaseEntity.Company = f.Company
+	// 基金经理
+	fundBaseEntity.Manager = f.Manager
+	fundBaseEntity.ManagerDesc = strings.ReplaceAll(f.ManagerDesc,"//","")
 	fundBaseEntity.Benchmark = f.Benchmark
 	// 发布时间
 	fundBaseEntity.ReleaseDate = replaceDateChinese(f.ReleaseDate)

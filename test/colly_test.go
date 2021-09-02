@@ -10,7 +10,7 @@ import (
 // 基金详情
 func TestFundBasis(t *testing.T) {
 	f := &fund.BasisCrawl{}
-	f.CrawlHtml("005609")
+	f.CrawlHtml("001751")
 	fundEntity := f.ConvertToEntity()
 	fmt.Printf("fund:%+v\n",fundEntity)
 }
