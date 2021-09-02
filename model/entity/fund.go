@@ -5,10 +5,11 @@ import "52lu/fund-analye-system/global"
 // FundBasis 基金基础信息表
 type FundBasis struct {
 	global.BaseModel
-	Code            string  `json:"code" gorm:"type:char(6);unique:un_code;comment:基金代码"`
+	Code            string  `json:"code" gorm:"type:char(6);not null; default '';unique:un_code;comment:基金代码"`
 	FullName        string  `json:"fullName" gorm:"type:varchar(50);comment:基金全称"`
-	ShortName       string  `json:"shortName" gorm:"type:varchar(50);comment:基金简称"`
-	Type            string  `json:"type" gorm:"type:varchar(50);comment:基金类型"`
+	ShortName       string  `json:"shortName" gorm:"type:varchar(20);comment:基金简称"`
+	MainType        string  `json:"mainType" gorm:"type:varchar(20);comment:基金主类型"`
+	SubType         string  `json:"subType" gorm:"type:varchar(20);comment:基金子类型"`
 	Company         string  `json:"company" gorm:"type:varchar(50);comment:基金公司"`
 	ReleaseDate     string  `json:"releaseDate" gorm:"type:varchar(12);comment:发布时间"`
 	EstablishDate   string  `json:"establishDate" gorm:"type:varchar(12);comment:成立时间"`
@@ -22,7 +23,7 @@ type FundBasis struct {
 // FundStock 基金股票持仓
 type FundStock struct {
 	global.BaseModel
-	FundCode   string  `json:"fundCode" gorm:"type:varchar(10);index;comment:基金code"`
+	FundCode   string  `json:"fundCode" gorm:"type:varchar(10);not null; default '';index;comment:基金code"`
 	StockCode  string  `json:"stockCode" gorm:"type:varchar(10);index;comment:股票code"`
 	Percentage float64 `json:"percentage" gorm:"type:decimal(4,2);comment:持仓占比(百分比)"`
 	Quantity   float64 `json:"quantity" gorm:"type:decimal(5,2);comment:持股数(万股)"`
@@ -33,7 +34,7 @@ type FundStock struct {
 // FundDayTop 基金每日排行
 type FundDayTop struct {
 	global.BaseModel
-	FundCode         string  `json:"fundCode" gorm:"type:varchar(10);index;comment:基金code"`
+	FundCode         string  `json:"fundCode" gorm:"type:varchar(10);not null; default '';index;comment:基金code"`
 	FundName         string  `json:"fundName" gorm:"type:varchar(50);index;comment:基金名称"`
 	TopDate          string  `json:"topDate" gorm:"type:varchar(12);index;comment:排名日期"`
 	NetWorth         float64 `json:"netWorth" gorm:"type:decimal(10,4);comment:单位净值"`

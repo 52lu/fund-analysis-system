@@ -6,7 +6,7 @@ package user
 import (
 	"52lu/fund-analye-system/global"
 	"52lu/fund-analye-system/model/entity"
-	"52lu/fund-analye-system/model/request/user"
+	"52lu/fund-analye-system/model/request"
 	"gorm.io/gorm"
 )
 
@@ -32,7 +32,7 @@ func LoginPwd(user *entity.User) error {
 }
 
 // 注册用户
-func Register(param user.RegisterParam) (*entity.User, error) {
+func Register(param request.RegisterParam) (*entity.User, error) {
 	user := entity.User{
 		NickName: param.NickName,
 		Phone:    param.Phone,

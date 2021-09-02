@@ -12,6 +12,7 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"path"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -25,8 +26,8 @@ const (
 func initLogger() {
 	logConfig := global.GvaConfig.Log
 	// 判断日志目录是否存在
-	if exist, _ := utils.DirExist(logConfig.Path); !exist {
-		_ = utils.CreateDir(logConfig.Path)
+	if exist, _ := utils.DirExist(getLogPath()); !exist {
+		_ = utils.CreateDir(getLogPath())
 	}
 	// 设置输出格式
 	var encoder zapcore.Encoder
@@ -110,7 +111,10 @@ func getLogFile() string {
 		global.GvaConfig.Log.FilePrefix,
 		fileFormat,
 		"log"}, ".")
-	return path.Join(global.GvaConfig.Log.Path, fileName)
+	return path.Join(getLogPath(), fileName)
 }
-
-
+// 获取日志文件目录
+func getLogPath() string {
+	_, file, _, _ := runtime.Caller(1)
+	return path.Dir(file) + "/../"+global.GvaConfig.Log.Path
+}

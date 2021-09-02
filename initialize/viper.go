@@ -20,10 +20,6 @@ func getConfigFile() string {
 func initConfig() {
 	var configFile string
 	// 读取配置文件优先级: 命令行 > 默认值
-	_, file, _, _ := runtime.Caller(1)
-	fmt.Println("path.file = ", file)
-	fmt.Println("path.Dir = ", path.Dir(file))
-
 	flag.StringVar(&configFile,"c",getConfigFile(),"配置配置")
 	if len(configFile) == 0 {
 		// 读取默认配置文件

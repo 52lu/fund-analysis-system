@@ -5,7 +5,7 @@ package internal
 
 import (
 	"52lu/fund-analye-system/global"
-	"52lu/fund-analye-system/model/request/user"
+	"52lu/fund-analye-system/model/request"
 	"errors"
 	"github.com/golang-jwt/jwt"
 	"go.uber.org/zap"
@@ -14,7 +14,7 @@ import (
 
 // 创建Jwt
 func CreateToken(uid uint) (string, error) {
-	newWithClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, &user.UserClaims{
+	newWithClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, &request.UserClaims{
 		StandardClaims: &jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(global.GvaConfig.Jwt.Expire).Unix(), // 有效期
 			Issuer:    global.GvaConfig.Jwt.Issuer,                        // 签发人
@@ -26,10 +26,10 @@ func CreateToken(uid uint) (string, error) {
 }
 
 // 验证JWT
-func ParseToken(tokenString string) (*user.UserClaims, error) {
+func ParseToken(tokenString string) (*request.UserClaims, error) {
 	var err error
 	var token *jwt.Token
-	token, err = jwt.ParseWithClaims(tokenString, &user.UserClaims{}, func(token *jwt.Token) (interface{}, error) {
+	token, err = jwt.ParseWithClaims(tokenString, &request.UserClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(global.GvaConfig.Jwt.Secret), nil
 	})
 	if err != nil {
@@ -37,7 +37,7 @@ func ParseToken(tokenString string) (*user.UserClaims, error) {
 		return nil, err
 	}
 	// 断言
-	userClaims, ok := token.Claims.(*user.UserClaims)
+	userClaims, ok := token.Claims.(*request.UserClaims)
 	// 验证
 	if !ok || !token.Valid {
 		return nil, errors.New("JWT验证失败")

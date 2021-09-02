@@ -2,26 +2,28 @@ package crontab
 
 import (
 	"52lu/fund-analye-system/global"
-	"52lu/fund-analye-system/model/entity"
 	"52lu/fund-analye-system/service/crawl/fund"
 	"fmt"
+	"time"
 )
 
-type FundCrawlCron struct {
+type FundBasicCron struct {
 	Code string
 }
-
-func (c FundCrawlCron) Run() {
-	f := &fund.BaseCrawl{}
-	// 爬取页面信息
-	f.CrawlHtml(c.Code)
-	// 转成实体类型
-	fundBasicEntity := &entity.FundBasis{}
-	f.ConvertToEntity(fundBasicEntity)
-	fmt.Println("GvaMysqlClient",global.GvaMysqlClient)
-	// 保存入库
-	create := global.GvaMysqlClient.Create(fundBasicEntity)
-	fmt.Println("保存结果:", create.Error)
-	fmt.Println("保存结果:", create.RowsAffected)
-
+// 抓取详情信息
+func (c FundBasicCron) Run() {
+	begin := time.Now().UnixMilli()
+	fmt.Println("基金详情-定时任务开始运行")
+	// 批量爬取
+	fundBasicEntityList := fund.BatchBasicCrawl()
+	if fundBasicEntityList != nil {
+		// 保存入库
+		create := global.GvaMysqlClient.Create(fundBasicEntityList)
+		if create.Error != nil {
+			global.GvaLogger.Sugar().Errorf("基金详情入库失败",create.Error)
+			return
+		}
+		global.GvaLogger.Sugar().Infof("基金详情抓取成功，共: %v 条",create.RowsAffected)
+	}
+	fmt.Printf("基金详情-定时任务运行完成,耗时:%vms\n",time.Now().UnixMilli() - begin)
 }

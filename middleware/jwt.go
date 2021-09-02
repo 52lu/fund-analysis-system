@@ -1,10 +1,10 @@
 package middleware
 
 import (
-	"52lu/fund-analye-system/internal"
 	"52lu/fund-analye-system/global"
+	"52lu/fund-analye-system/internal"
 	"52lu/fund-analye-system/model/dao"
-	"52lu/fund-analye-system/model/request/user"
+	"52lu/fund-analye-system/model/request"
 	"52lu/fund-analye-system/model/response"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -40,7 +40,7 @@ func JWTAuthMiddleware() func(ctx *gin.Context) {
 	}
 }
 // 设置数据到上下文
-func setContextData(ctx *gin.Context, userClaim *user.UserClaims, token string) {
+func setContextData(ctx *gin.Context, userClaim *request.UserClaims, token string) {
 	userDao := &dao.UserDao{
 		Uid: userClaim.Uid,
 	}

@@ -1,32 +1,27 @@
 package test
 
 import (
-	"52lu/fund-analye-system/model/entity"
 	"52lu/fund-analye-system/service/crawl/fund"
 	"fmt"
 	"github.com/gocolly/colly/v2"
 	"strings"
 	"testing"
 )
-
+// 基金详情
 func TestFundBasis(t *testing.T) {
-	fund := &fund.BaseCrawl{}
-	fund.CrawlHtml("005609")
-	fundEntity := &entity.FundBasis{}
-	fund.ConvertToEntity(fundEntity)
-	//marshal, _ := json.Marshal(fund)
+	f := &fund.BasisCrawl{}
+	f.CrawlHtml("005609")
+	fundEntity := f.ConvertToEntity()
 	fmt.Printf("fund:%+v\n",fundEntity)
 }
-
+// 请求基金榜单
 func TestFundTop(t *testing.T) {
 	f := &fund.TopCrawlService{}
 	f.CrawlHtml()
 	convertEntity := f.ConvertEntity()
 	fmt.Printf("结果: %+v\n",convertEntity)
 }
-
-
-
+// 直接的榜单请求接口
 func TestReq(t *testing.T) {
 	collector := colly.NewCollector()
 	collector.OnRequest(func(request *colly.Request) {

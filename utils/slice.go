@@ -10,3 +10,4 @@ func ExistSliceStr(search string, sliceStr []string) (int, bool) {
 	}
 	return -1, false
 }
+

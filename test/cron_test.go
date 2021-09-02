@@ -10,3 +10,9 @@ func TestFundTopCron(t *testing.T) {
 	topCron := crontab.FundTopCron{}
 	topCron.Run()
 }
+
+// 批量抓取
+func TestBatchCrawlDetailCron(t *testing.T) {
+	cron := crontab.FundBasicCron{}
+	cron.Run()
+}

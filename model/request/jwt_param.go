@@ -1,7 +1,7 @@
 /**
  * @Description JWT中的声明
  **/
-package user
+package request
 
 import "github.com/golang-jwt/jwt"
 

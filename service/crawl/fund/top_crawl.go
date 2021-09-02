@@ -2,7 +2,7 @@ package fund
 
 import (
 	"52lu/fund-analye-system/global"
-	fundDao "52lu/fund-analye-system/model/dao/fund"
+	"52lu/fund-analye-system/model/dao"
 	"52lu/fund-analye-system/model/entity"
 	"52lu/fund-analye-system/service/crawl"
 	"52lu/fund-analye-system/utils"
@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 )
+
 // 对应每一行的基金信息
 type fundItem struct {
 	FundCode         string `selector:"td:nth-of-type(1)"`
@@ -41,7 +42,7 @@ func (f *TopCrawlService) ExistTopDate() bool {
 	}
 	format := time.Now().Format("2006")
 	topDate := fmt.Sprintf("%s-%s", format, f.Item[1].TopDate)
-	fTopEntity, err := fundDao.FindLastOneByDate(topDate)
+	fTopEntity, err := dao.FindLastOneByDate(topDate)
 	if err != nil {
 		global.GvaLogger.Error("查询数据库异常", zap.String("error", err.Error()))
 	}

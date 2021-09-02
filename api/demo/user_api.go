@@ -5,7 +5,7 @@ import (
 	"52lu/fund-analye-system/internal"
 	"52lu/fund-analye-system/internal/validate"
 	"52lu/fund-analye-system/model/entity"
-	"52lu/fund-analye-system/model/request/user"
+	"52lu/fund-analye-system/model/request"
 	"52lu/fund-analye-system/model/response"
 	userService "52lu/fund-analye-system/service/user"
 	"github.com/gin-gonic/gin"
@@ -18,7 +18,7 @@ import (
  */
 func Register(ctx *gin.Context) {
 	// 绑定参数
-	var registerParam user.RegisterParam
+	var registerParam request.RegisterParam
 	var err error
 	_ = ctx.ShouldBindJSON(&registerParam)
 	//  参数校验
@@ -42,7 +42,7 @@ func Register(ctx *gin.Context) {
  */
 func Login(ctx *gin.Context) {
 	// 绑定参数
-	var loginParam user.LoginParam
+	var loginParam request.LoginParam
 	_ = ctx.ShouldBindJSON(&loginParam)
 	//  参数校验
 	err := validate.Validate(loginParam)
