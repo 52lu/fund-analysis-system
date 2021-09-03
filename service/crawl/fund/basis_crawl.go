@@ -58,21 +58,29 @@ func splitFundBasicList(data []dao.FilterBasicResult, groupNum int) [][]dao.Filt
 }
 
 // 批量抓取
-func BatchBasicCrawl() []entity.FundBasis {
+func BatchBasicCrawl() {
 	// 从排行榜中获取code,并过滤已经爬取过的code
 	basicFundList := dao.FilterBasicFund()
 	total := len(basicFundList)
-	if total == 0 {
-		return nil
+	if total > 0 {
+		var baseRowsChannel = make(chan entity.FundBasis, total)
+		// 分组抓取
+		crawlByGroup(basicFundList, baseRowsChannel)
+		// 遍历channel获取数据
+		var fundBasisRows []entity.FundBasis
+		for item := range baseRowsChannel {
+			fundBasisRows = append(fundBasisRows, item)
+		}
+		if fundBasisRows != nil {
+			// 保存入库
+			create := global.GvaMysqlClient.Create(fundBasisRows)
+			if create.Error != nil {
+				global.GvaLogger.Sugar().Errorf("基金详情入库失败", create.Error)
+				return
+			}
+			global.GvaLogger.Sugar().Infof("基金详情抓取成功，共: %v 条", create.RowsAffected)
+		}
 	}
-	var baseRowsChannel = make(chan entity.FundBasis, total)
-	crawlByGroup(basicFundList, baseRowsChannel)
-	// 遍历channel获取数据
-	var fundBasisRows []entity.FundBasis
-	for item := range baseRowsChannel {
-		fundBasisRows = append(fundBasisRows, item)
-	}
-	return fundBasisRows
 }
 
 // 分组抓取，防止并发过大，被拒绝访问
@@ -155,7 +163,7 @@ func (f *BasisCrawl) ConvertToEntity() entity.FundBasis {
 	fundBaseEntity.Company = f.Company
 	// 基金经理
 	fundBaseEntity.Manager = f.Manager
-	fundBaseEntity.ManagerDesc = strings.ReplaceAll(f.ManagerDesc,"//","")
+	fundBaseEntity.ManagerDesc = strings.ReplaceAll(f.ManagerDesc, "//", "")
 	fundBaseEntity.Benchmark = f.Benchmark
 	// 发布时间
 	fundBaseEntity.ReleaseDate = replaceDateChinese(f.ReleaseDate)
