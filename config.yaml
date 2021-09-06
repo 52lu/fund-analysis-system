@@ -29,7 +29,7 @@ mysql:
   skipInitializeWithVersion: false # 根据当前 MySQL 版本自动配置
   autoMigrate: true # 开启时，每次服务启动都会根据实体创建/更新表结构
   slowSql: 1ms # 慢sql时间。单位毫秒
-  logLevel: error # error、info、warn
+  logLevel: info # error、info、warn
   ignoreRecordNotFoundError: true # 是否忽略ErrRecordNotFound(未查到记录错误)
   gorm: # gorm配置项disableForeignKeyConstraintWhenMigrating
     skipDefaultTx: false # 是否跳过默认事务
@@ -61,4 +61,4 @@ elastic:
   logPre: ES-
 cron:
   # 是否开启
-  enable: true
+  enable: false

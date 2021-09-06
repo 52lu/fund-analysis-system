@@ -20,6 +20,7 @@ type FundBasis struct {
 	CustodyFeeRate  float64 `json:"custodyFeeRate" gorm:"type:decimal(4,2);comment:托管费率(百分比)"`
 	SaleFeeRate     float64 `json:"saleFeeRate" gorm:"type:decimal(4,2);comment:销售服务费率(百分比)"`
 	Benchmark       string  `json:"benchmark" gorm:"type:varchar(255);comment:业绩比较基准"`
+	SyncStock       int     `json:"syncTop" gorm:"type:tinyint(4);default:0;comment:是否同步股票持仓, 1:是 0:否"`
 }
 
 // FundStock 基金股票持仓
@@ -27,9 +28,10 @@ type FundStock struct {
 	global.BaseModel
 	FundCode   string  `json:"fundCode" gorm:"type:varchar(10);not null; default:'';index;comment:基金code"`
 	StockCode  string  `json:"stockCode" gorm:"type:varchar(10);index;comment:股票code"`
+	StockName  string  `json:"stockName" gorm:"type:varchar(10);index;comment:股票名称"`
 	Percentage float64 `json:"percentage" gorm:"type:decimal(4,2);comment:持仓占比(百分比)"`
-	Quantity   float64 `json:"quantity" gorm:"type:decimal(5,2);comment:持股数(万股)"`
-	Amount     float64 `json:"amount" gorm:"type:decimal(5,2);comment:持股市值(万元)"`
+	Quantity   float64 `json:"quantity" gorm:"type:decimal(10,2);comment:持股数(万股)"`
+	Amount     float64 `json:"amount" gorm:"type:decimal(10,2);comment:持股市值(万元)"`
 	CutOffDate string  `json:"cutOffDate" gorm:"type:char(10);comment:截止时间"`
 }
 
