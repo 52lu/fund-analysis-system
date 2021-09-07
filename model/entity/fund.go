@@ -26,13 +26,14 @@ type FundBasis struct {
 // FundStock 基金股票持仓
 type FundStock struct {
 	global.BaseModel
-	FundCode   string  `json:"fundCode" gorm:"type:varchar(10);not null; default:'';index;comment:基金code"`
-	StockCode  string  `json:"stockCode" gorm:"type:varchar(10);index;comment:股票code"`
-	StockName  string  `json:"stockName" gorm:"type:varchar(10);index;comment:股票名称"`
-	Percentage float64 `json:"percentage" gorm:"type:decimal(4,2);comment:持仓占比(百分比)"`
-	Quantity   float64 `json:"quantity" gorm:"type:decimal(10,2);comment:持股数(万股)"`
-	Amount     float64 `json:"amount" gorm:"type:decimal(10,2);comment:持股市值(万元)"`
-	CutOffDate string  `json:"cutOffDate" gorm:"type:char(10);comment:截止时间"`
+	FundCode      string  `json:"fundCode" gorm:"type:varchar(10);not null; default:'';index;comment:基金code"`
+	StockCode     string  `json:"stockCode" gorm:"type:varchar(10);index;comment:股票code"`
+	StockName     string  `json:"stockName" gorm:"type:varchar(10);comment:股票名称"`
+	StockExchange string  `json:"stockExchange" gorm:"type:varchar(10);comment:股票所属交易所，SZ:深圳 SH:上海 HK:港股"`
+	Percentage    float64 `json:"percentage" gorm:"type:decimal(4,2);comment:持仓占比(百分比)"`
+	Quantity      float64 `json:"quantity" gorm:"type:decimal(10,2);comment:持股数(万股)"`
+	Amount        float64 `json:"amount" gorm:"type:decimal(10,2);comment:持股市值(万元)"`
+	CutOffDate    string  `json:"cutOffDate" gorm:"type:char(10);comment:截止时间"`
 }
 
 // FundDayTop 基金每日排行

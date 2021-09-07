@@ -16,24 +16,26 @@ import (
 	"time"
 )
 
+// 对应表中的每一tr
 type StockPercentageRow struct {
 	StockCode  string `selector:"td:nth-of-type(2)"`
+	StockHref  string `selector:"td:nth-of-type(2) > a[href]" attr:"href"`
 	StockName  string `selector:"td:nth-of-type(3)"`
 	Percentage string `selector:"td:nth-of-type(7)"`
 	Quantity   string `selector:"td:nth-of-type(8)"`
 	Amount     string `selector:"td:nth-of-type(9)"`
 }
 
+// 对应整个table
 type StockPercentageRowsCrawl struct {
 	Rows       []StockPercentageRow `selector:"tr"`
 	FundCode   string
 	CutOffDate string
 }
 
-
 // 爬取信息
 func (c *StockPercentageRowsCrawl) CrawlHtml(fundCode string) {
-	collector := colly.NewCollector(colly.UserAgent(crawl.UserAgent),colly.Async(true))
+	collector := colly.NewCollector(colly.UserAgent(crawl.UserAgent), colly.Async(true))
 	// 开启限速
 	err := collector.Limit(&colly.LimitRule{
 		DomainGlob:  "*fundf10.eastmoney.*",
@@ -42,7 +44,7 @@ func (c *StockPercentageRowsCrawl) CrawlHtml(fundCode string) {
 		Parallelism: 20,
 	})
 	collector.OnRequest(func(request *colly.Request) {
-		fmt.Println("url:",request.URL)
+		fmt.Println("url:", request.URL)
 	})
 	// 处理返回的数据
 	collector.OnResponse(func(response *colly.Response) {
@@ -65,14 +67,13 @@ func (c *StockPercentageRowsCrawl) CrawlHtml(fundCode string) {
 		}
 		err = e.Unmarshal(c)
 		if err != nil {
-			global.GvaLogger.Error("爬虫解析失败",zap.String("error",err.Error()))
+			global.GvaLogger.Error("爬虫解析失败", zap.String("error", err.Error()))
 			return
 		}
 		// 过滤header
-		if len(c.Rows) > 0 && c.Rows[0].StockCode  == ""{
+		if len(c.Rows) > 0 && c.Rows[0].StockCode == "" {
 			c.Rows = c.Rows[1:]
 		}
-
 		// 获取持仓季度时间信息
 		c.CutOffDate = docSelection.Find("h4 label").Eq(1).Find("font").Text()
 		// 补充额外信息
@@ -98,6 +99,14 @@ func (c StockPercentageRowsCrawl) ConvertEntity() []entity.FundStock {
 			StockName:  row.StockName,
 			CutOffDate: c.CutOffDate,
 		}
+		// 提取交易所信息
+		// 提取交易所信息
+		compile := regexp.MustCompile(`com\/([a-zA-Z]+)\d+\.html`)
+		stringSubMatch := compile.FindAllStringSubmatch(row.StockHref, -1)
+		if stringSubMatch != nil {
+			 item.StockExchange = strings.ToUpper(stringSubMatch[0][1])
+		}
+		// 字符串转浮点型
 		item.Percentage, _ = strconv.ParseFloat(row.Percentage, 64)
 		item.Quantity, _ = strconv.ParseFloat(row.Quantity, 64)
 		item.Amount, _ = strconv.ParseFloat(row.Amount, 64)

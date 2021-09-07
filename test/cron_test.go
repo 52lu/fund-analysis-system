@@ -11,8 +11,14 @@ func TestFundTopCron(t *testing.T) {
 	topCron.Run()
 }
 
-// 批量抓取
+// 批量抓取基金详情
 func TestBatchCrawlDetailCron(t *testing.T) {
 	cron := crontab.FundBasicCron{}
+	cron.Run()
+}
+
+// 批量抓取基金持仓
+func TestFundStockCron(t *testing.T) {
+	cron := crontab.FundStockCron{}
 	cron.Run()
 }

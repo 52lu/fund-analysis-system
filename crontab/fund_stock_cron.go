@@ -54,7 +54,7 @@ func runWithGoroutine(dataChan chan [][]entity.FundStock, totalPage, pageNum int
 				for _, val := range fundStocks {
 					rows := &fund.StockPercentageRowsCrawl{}
 					rows.CrawlHtml(val.Code)
-					fundCodes = append(fundCodes,val.Code)
+					fundCodes = append(fundCodes, val.Code)
 					if len(rows.Rows) > 0 {
 						convertEntity := rows.ConvertEntity()
 						fundStockList = append(fundStockList, convertEntity)
@@ -90,8 +90,9 @@ func saveToDb(dataChan chan [][]entity.FundStock) {
 				// 判断是否已经存在
 				if _, ok := checkExistKey[stockCode]; !ok {
 					stockRows = append(stockRows, entity.Stock{
-						Code: fundStock.StockCode,
-						Name: fundStock.StockName,
+						Code:         fundStock.StockCode,
+						Name:         fundStock.StockName,
+						ExchangeCode: fundStock.StockExchange,
 					})
 					checkExistKey[stockCode] = struct{}{}
 				}
@@ -101,7 +102,7 @@ func saveToDb(dataChan chan [][]entity.FundStock) {
 	var codeList []string
 	for val := range fundCodeChannel {
 		for _, c := range val {
-			codeList = append(codeList,c)
+			codeList = append(codeList, c)
 		}
 	}
 
