@@ -41,6 +41,9 @@ func (c FundStockCron) Run() {
 
 // 开启协程分组抓取
 func runWithGoroutine(dataChan chan [][]entity.FundStock, totalPage, pageNum int) {
+	// 延迟关闭chan
+	defer close(dataChan)
+	defer close(fundCodeChannel)
 	// 开启协程抓取
 	wg.Add(totalPage)
 	for i := 1; i <= totalPage; i++ {
@@ -69,8 +72,6 @@ func runWithGoroutine(dataChan chan [][]entity.FundStock, totalPage, pageNum int
 		}()
 	}
 	wg.Wait()
-	close(dataChan)
-	close(fundCodeChannel)
 }
 
 // 保存入库

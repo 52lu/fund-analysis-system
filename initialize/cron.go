@@ -26,6 +26,8 @@ func addJob(c *cron.Cron) {
 	_, _ = c.AddJob("0 30 18 */1 * *", crontab.FundTopCron{})
 	// 爬取基金基本信息(每天 22:30)
  	_, _ = c.AddJob("0 30 22 */1 * *", crontab.FundBasicCron{})
+	// 爬取基金持仓信息信息(每天 20:30)
+	_, _ = c.AddJob("0 30 20 */1 * *", crontab.FundStockCron{})
 
 }
 

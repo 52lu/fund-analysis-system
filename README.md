@@ -30,6 +30,11 @@
 
 ![](https://gitee.com/QingHui/picGo-img-bed/raw/master/img/20210826225841.png)
 
-## 5.项目状态
+## 5. 开发日记博客
+- [Go实战(一)：基金分析系统[项目介绍]](https://mp.weixin.qq.com/s/9FaIw1dAu6XACnGEPSR6lg)
+- [Go实战(二):基金分析系统-通过数据模型建表](https://mp.weixin.qq.com/s/Ax8B2t-lsHGKiyxRuKTFzw)
+
+
+## 6.项目状态
 
 #### :exclamation:开发中

@@ -79,7 +79,7 @@ func (c *StockPercentageRowsCrawl) CrawlHtml(fundCode string) {
 		// 补充额外信息
 		c.FundCode = fundCode
 	})
-	err = collector.Visit(fmt.Sprintf("https://fundf10.eastmoney.com/FundArchivesDatas.aspx?type=jjcc&code=%s&topline=30", fundCode))
+	err = collector.Visit(fmt.Sprintf("https://fundf10.eastmoney.com/FundArchivesDatas.aspx?type=jjcc&code=%s&topline=10", fundCode))
 	if err != nil {
 		global.GvaLogger.Sugar().Errorf("CrawlHtml error:%s", err)
 	}
