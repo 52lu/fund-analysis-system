@@ -33,6 +33,9 @@
 ## 5. 开发日记博客
 - [Go实战(一)：基金分析系统[项目介绍]](https://mp.weixin.qq.com/s/9FaIw1dAu6XACnGEPSR6lg)
 - [Go实战(二):基金分析系统-通过数据模型建表](https://mp.weixin.qq.com/s/Ax8B2t-lsHGKiyxRuKTFzw)
+- [Go实战(三):基金分析系统-爬取收益榜单](https://mp.weixin.qq.com/s/SX_AyKAjpkEHAKBxLaCZdA)
+- [Go实战(四):基金分析系统-爬取基金详情](https://mp.weixin.qq.com/s/kGWxihVVLierRfsLgrDTUA)
+- [Go实战(五):基金分析系统-爬取基金持仓](https://mp.weixin.qq.com/s/YP7--0z3KrmLg-qWjNFHUw)
 
 
 ## 6.项目状态
