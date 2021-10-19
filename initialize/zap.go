@@ -12,7 +12,6 @@ import (
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"path"
-	"runtime"
 	"strings"
 	"time"
 )
@@ -115,6 +114,5 @@ func getLogFile() string {
 }
 // 获取日志文件目录
 func getLogPath() string {
-	_, file, _, _ := runtime.Caller(1)
-	return path.Dir(file) + "/../"+global.GvaConfig.Log.Path
+	return global.GvaConfig.Log.Path
 }

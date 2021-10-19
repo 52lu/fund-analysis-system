@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        - APP_ENV=${APP_ENV}
+    command: sh -c "./app -c ./config.yaml"
+    ports:
+      - "${APP_PORT}:8088"
+#    tty: true

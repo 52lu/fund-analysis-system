@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"math"
 	"sync"
-	"time"
 )
 
 type FundStockCron struct {
@@ -26,7 +25,6 @@ var fundCodeChannel = make(chan []string, perTaskTotal)
 
 // 定时任务启动入口
 func (c FundStockCron) Run() {
-	btime := time.Now().UnixMilli()
 	fmt.Println("基金持仓-股票定时任务准备执行....")
 	pageNum := 10
 	totalPage := int(math.Ceil(float64(perTaskTotal) / float64(pageNum)))
@@ -36,7 +34,6 @@ func (c FundStockCron) Run() {
 	runWithGoroutine(dataChan, totalPage, pageNum)
 	// 读取通道，数据入库
 	saveToDb(dataChan)
-	fmt.Printf("基金持仓股票-定时任务执行完成，耗时:%vms\n", time.Now().UnixMilli()-btime)
 }
 
 // 开启协程分组抓取
