@@ -1,5 +1,7 @@
 version: '3'
-
+networks:
+  backend:
+    driver: ${NETWORKS_DRIVER}
 services:
   app:
     build:
@@ -9,4 +11,5 @@ services:
     command: sh -c "./app -c ./config.yaml"
     ports:
       - "${APP_PORT}:8088"
-#    tty: true
+    networks:
+      - backend
