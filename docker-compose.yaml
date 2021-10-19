@@ -11,5 +11,3 @@ services:
     command: sh -c "./app -c ./config.yaml"
     ports:
       - "${APP_PORT}:8088"
-    networks:
-      - backend
