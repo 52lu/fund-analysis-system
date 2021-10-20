@@ -1,7 +1,7 @@
 version: '3'
-#networks:
-#  backend:
-#    driver: ${NETWORKS_DRIVER}
+networks:
+  backend:
+    driver: ${NETWORKS_DRIVER}
 services:
   app:
     build:
@@ -9,5 +9,7 @@ services:
       args:
         - APP_ENV=${APP_ENV}
     command: sh -c "./app -c ./config.yaml"
+    extra_hosts:
+      - "dockerhost:${DOCKER_HOST_IP}"
     ports:
       - "${APP_PORT}:8088"

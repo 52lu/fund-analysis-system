@@ -30,9 +30,3 @@ COPY ./config-${APP_ENV}.yaml /config.yaml
 # 从builder镜像中把二进制文件/dist/app 拷贝到当前目录
 COPY --from=builder /build/app /
 
-
-
-# 需要运行的命令
-#ENTRYPOINT ["/app","-c","./config.yaml"]
-#EXPOSE 8088
-
