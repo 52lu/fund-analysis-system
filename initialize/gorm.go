@@ -47,7 +47,7 @@ func initGorm() {
 		SkipInitializeWithVersion: mysqlConfig.SkipInitializeWithVersion,
 	}), gormConfig)
 	if err != nil {
-		panic(fmt.Sprintf("创建mysql客户端失败: %s", err))
+		panic(fmt.Sprintf("创建mysql客户端失败: %s, %v", err,mysqlConfig))
 	}
 	// 赋值给全局变量
 	global.GvaMysqlClient = client
