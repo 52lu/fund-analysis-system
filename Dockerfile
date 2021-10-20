@@ -18,15 +18,6 @@ RUN go mod download
 # 编译成二进制文件,二进制文件名：app
 RUN go build -o app .
 
-# 移动到用于存放生成的二进制文件的 /dist 目录
-WORKDIR /dist
-
-# 将二进制文件从 /build 目录复制到这里
-RUN cp /build/app .
-
-# 声明服务端口
-#EXPOSE 8888
-
 # 启动容器时运行的命令
-CMD ["/dist/app"]
+CMD ["./app"]
 
