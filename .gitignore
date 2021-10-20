@@ -19,4 +19,5 @@ logs
 zhttp
 test/run_test.go
 config-local.yaml
+config-prod.yaml
 .env
