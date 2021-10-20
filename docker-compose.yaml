@@ -8,3 +8,4 @@ services:
     command: sh -c "./app -c ./config.yaml"
     ports:
       - "${APP_PORT}:8088"
+    network_mode: "host"
