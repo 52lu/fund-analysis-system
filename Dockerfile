@@ -18,15 +18,15 @@ RUN go mod download
 # 编译成二进制文件,二进制文件名：app
 RUN go build -o app .
 
+# 移动到用于存放生成的二进制文件的 /dist 目录
+WORKDIR /dist
 
+# 将二进制文件从 /build 目录复制到这里
+RUN cp /build/app .
 
-### --------- 二阶段，构建一个小镜像 ---------
-FROM debian:stretch-slim
+# 声明服务端口
+#EXPOSE 8888
 
-# 复制配置文件
-ARG APP_ENV
-COPY ./config-${APP_ENV}.yaml /config.yaml
-
-# 从builder镜像中把二进制文件/dist/app 拷贝到当前目录
-COPY --from=builder /build/app /
+# 启动容器时运行的命令
+CMD ["/dist/app"]
 
