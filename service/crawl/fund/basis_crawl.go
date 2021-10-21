@@ -147,7 +147,7 @@ func (f *BasisCrawl) CrawlHtml(fundCode string) {
 
 // ConvertToEntity 格式化数据为实体类
 func (f *BasisCrawl) ConvertToEntity() entity.FundBasis {
-	if f.Code != "" {
+	if f.Code == "" {
 		return entity.FundBasis{}
 	}
 	var fundBaseEntity entity.FundBasis

@@ -10,9 +10,14 @@ import (
 *  @Description:
 *  @param context
 **/
-func Run(context *gin.Context){
+func Run(ctx *gin.Context){
+	code, b := ctx.GetQuery("code")
+	if !b {
+		response.Error(ctx,"参数不能为空!")
+		return
+	}
 	f := &fund.BasisCrawl{}
-	f.CrawlHtml("001751")
+	f.CrawlHtml(code)
 	fundEntity := f.ConvertToEntity()
-	response.OkWithData(context,fundEntity)
+	response.OkWithData(ctx,fundEntity)
 }
