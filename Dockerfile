@@ -36,3 +36,5 @@ COPY --from=builder /build/app /www
 # 修改时区
 RUN ln -snf /usr/share/zoneinfo/PRC /etc/localtime && echo PRC > /etc/timezone
 
+# 安装curl
+RUN apt install curl
