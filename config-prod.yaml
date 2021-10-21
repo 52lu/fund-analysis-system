@@ -19,7 +19,7 @@ mysql:
   host: 172.20.0.1
   port: 3306
   user: root
-  password: root
+  password: 8f818a3a11f6073c
   database: fund_analye_system
   charset: utf8mb4 # 要支持完整的UTF-8编码,需设置成: utf8mb4
   parseTime: true # 解析time.Time类型
