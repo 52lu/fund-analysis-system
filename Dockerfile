@@ -22,10 +22,9 @@ RUN go build -o app .
 
 
 ### --------- 二阶段，构建一个小镜像 ---------
-FROM debian:stretch-slim
+FROM registry.cn-beijing.aliyuncs.com/liuqinghui/go-env:stretch-slim
 
 # 项目目录
-RUN mkdir www
 WORKDIR /www
 
 ## 复制配置文件
@@ -34,9 +33,3 @@ COPY ./config-${APP_ENV}.yaml /www/config.yaml
 
 # 从builder镜像中把二进制文件/build/app 拷贝到当前目录
 COPY --from=builder /build/app /www
-# 解决证书验证的问题,x509:certificate signed by unknown authority
-RUN apt-get -qq update \
-    && apt-get -qq install -y --no-install-recommends ca-certificates curl
-
-# 修改时区
-RUN ln -snf /usr/share/zoneinfo/PRC /etc/localtime && echo PRC > /etc/timezone
