@@ -22,10 +22,17 @@ RUN go build -o app .
 ### --------- 二阶段，构建一个小镜像 ---------
 FROM debian:stretch-slim
 
+# 项目目录
+RUN mkdir dist
+WORKDIR /dist
+
 # 复制配置文件
 ARG APP_ENV
-COPY ./config-${APP_ENV}.yaml /config.yaml
+COPY ./config-${APP_ENV}.yaml /dist/config.yaml
 
-# 从builder镜像中把二进制文件/dist/app 拷贝到当前目录
-COPY --from=builder /build/app /
+# 从builder镜像中把二进制文件/build/app 拷贝到当前目录
+COPY --from=builder /build/app /dist
+
+# 修改时区
+RUN ln -snf /usr/share/zoneinfo/PRC /etc/localtime && echo PRC > /etc/timezone
 
