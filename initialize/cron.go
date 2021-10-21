@@ -21,11 +21,11 @@ func initCron() {
 // 添加Job任务
 func addJob(c *cron.Cron) {
 	// 测试任务
-	_, _ = c.AddJob("@every 1m", crontab.DemoCron{})
-	// 爬取每日基金排行榜单(每天 18:30)
-	_, _ = c.AddJob("0 30 18 */1 * *", crontab.FundTopCron{})
-	// 爬取基金基本信息(每天 22:30)
- 	_, _ = c.AddJob("0 30 22 */1 * *", crontab.FundBasicCron{})
+	_, _ = c.AddJob("@every 1h", crontab.DemoCron{})
+	// 爬取每日基金排行榜单(每天 13:30)
+	_, _ = c.AddJob("0 30 13 */1 * *", crontab.FundTopCron{})
+	// 爬取基金基本信息(每天 1:30)
+ 	_, _ = c.AddJob("0 30 15 */1 * *", crontab.FundBasicCron{})
 	// 爬取基金持仓信息信息(每天 20:30)
 	_, _ = c.AddJob("0 30 20 */1 * *", crontab.FundStockCron{})
 
