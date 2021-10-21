@@ -13,7 +13,6 @@ WORKDIR /build
 # 将代码复制到容器中
 COPY . .
 
-
 # 下载依赖
 RUN go mod download
 

@@ -1,6 +1,6 @@
 module 52lu/fund-analye-system
 
-go 1.17
+go 1.16
 
 require (
 	github.com/fsnotify/fsnotify v1.4.9
