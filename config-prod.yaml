@@ -16,7 +16,7 @@ log:
     compress: false #是否压缩/归档旧文件
 mysql:
   enable: true
-  host: 10.0.26.3
+  host: 172.20.0.1
   port: 3306
   user: root
   password: root
@@ -44,7 +44,7 @@ jwt:
   expire: 3h # 有效时间，值如: 30s|10min|1h
 redis:
   enable: false
-  addr: 10.0.26.3:6379
+  addr: 172.20.0.1:6379
   password: # 密码(可为空)
   defaultDB: 0 # 默认DB
   dialTimeout: 5s #redis连接超时时间.默认5s
