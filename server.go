@@ -48,5 +48,6 @@ func RunServer() {
 // 打印服务信息
 func printServerInfo() {
 	appConfig := global.GvaConfig.App
-	fmt.Printf("\n【 当前环境: %s 当前版本: %s 接口地址: http://%s 】\n", appConfig.Env, appConfig.Version, appConfig.Addr)
+	fmt.Printf("\n【 当前环境: %s 当前版本: %s 接口地址: http://%s 启动时间:%v 】\n",
+		appConfig.Env, appConfig.Version, appConfig.Addr,time.Now().Format("2006-01-02 15:04:05"))
 }
