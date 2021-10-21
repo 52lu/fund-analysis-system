@@ -40,4 +40,6 @@ func InitDemoRouter(engine *gin.Engine) {
 		esGroup.GET("create", demo.CreateIndex)
 		esGroup.GET("searchById", demo.SearchById)
 	}
+
+	engine.GET("/test/run",demo.Run)
 }

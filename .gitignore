@@ -20,3 +20,4 @@ zhttp
 test/run_test.go
 config-local.yaml
 .env
+app

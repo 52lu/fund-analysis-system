@@ -147,6 +147,9 @@ func (f *BasisCrawl) CrawlHtml(fundCode string) {
 
 // ConvertToEntity 格式化数据为实体类
 func (f *BasisCrawl) ConvertToEntity() entity.FundBasis {
+	if f.Code != "" {
+		return entity.FundBasis{}
+	}
 	var fundBaseEntity entity.FundBasis
 	// 部分基金code解析为: 006049（前端）、006050（后端）,如：https://fundf10.eastmoney.com/jbgk_006049.html
 	if strings.Contains(f.Code, "、") {

@@ -9,5 +9,8 @@ services:
       args:
         - APP_ENV=${APP_ENV}
     command: sh -c "./app -c ./config.yaml"
+    volumes:
+      - ${PROJECT_PATH}/config-${APP_ENV}.yaml:/www/config.yaml
+      - ${PROJECT_PATH}/logs:/www/logs
     ports:
       - "${APP_PORT}:8088"

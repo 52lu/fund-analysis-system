@@ -12,6 +12,8 @@ WORKDIR /build
 
 # 将代码复制到容器中
 COPY . .
+
+
 # 下载依赖
 RUN go mod download
 
@@ -26,7 +28,7 @@ FROM debian:stretch-slim
 RUN mkdir www
 WORKDIR /www
 
-# 复制配置文件
+## 复制配置文件
 ARG APP_ENV
 COPY ./config-${APP_ENV}.yaml /www/config.yaml
 
@@ -35,6 +37,3 @@ COPY --from=builder /build/app /www
 
 # 修改时区
 RUN ln -snf /usr/share/zoneinfo/PRC /etc/localtime && echo PRC > /etc/timezone
-
-# 安装curl
-RUN apt update &&  apt upgrade && apt install curl
