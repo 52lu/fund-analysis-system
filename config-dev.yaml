@@ -28,7 +28,7 @@ mysql:
   disableDatetimePrecision: true # 禁用 datetime 精度，MySQL 5.6 之前的数据库不支持
   skipInitializeWithVersion: false # 根据当前 MySQL 版本自动配置
   autoMigrate: true # 开启时，每次服务启动都会根据实体创建/更新表结构
-  slowSql: 1ms # 慢sql时间。单位毫秒
+  slowSql: 100ms # 慢sql时间。单位毫秒
   logLevel: info # error、info、warn
   ignoreRecordNotFoundError: true # 是否忽略ErrRecordNotFound(未查到记录错误)
   gorm: # gorm配置项disableForeignKeyConstraintWhenMigrating
