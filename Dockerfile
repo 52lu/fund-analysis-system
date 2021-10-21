@@ -23,15 +23,15 @@ RUN go build -o app .
 FROM debian:stretch-slim
 
 # 项目目录
-RUN mkdir dist
-WORKDIR /dist
+RUN mkdir www
+WORKDIR /www
 
 # 复制配置文件
 ARG APP_ENV
-COPY ./config-${APP_ENV}.yaml /dist/config.yaml
+COPY ./config-${APP_ENV}.yaml /www/config.yaml
 
 # 从builder镜像中把二进制文件/build/app 拷贝到当前目录
-COPY --from=builder /build/app /dist
+COPY --from=builder /build/app /www
 
 # 修改时区
 RUN ln -snf /usr/share/zoneinfo/PRC /etc/localtime && echo PRC > /etc/timezone
