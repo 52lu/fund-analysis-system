@@ -104,9 +104,11 @@ func saveToDb(dataChan chan [][]entity.FundStock) {
 		}
 	}
 
-	// 入库
-	if save := global.GvaMysqlClient.Create(fundStockRows); save.Error != nil {
-		global.GvaLogger.Sugar().Errorf("基金持仓入库失败:%s", save.Error)
+	if len(fundStockRows) > 0  {
+		// 入库
+		if save := global.GvaMysqlClient.Create(fundStockRows); save.Error != nil {
+			global.GvaLogger.Sugar().Errorf("基金持仓入库失败:%s", save.Error)
+		}
 	}
 	// 批量更新
 	if len(codeList) > 0 {
@@ -115,7 +117,10 @@ func saveToDb(dataChan chan [][]entity.FundStock) {
 			global.GvaLogger.Sugar().Errorf("信息更新失败:%s", up.Error)
 		}
 	}
-	if save := global.GvaMysqlClient.Create(stockRows); save.Error != nil {
-		global.GvaLogger.Sugar().Errorf("股票信息入库失败:%s", save.Error)
+	if len(stockRows) > 0  {
+		if save := global.GvaMysqlClient.Create(stockRows); save.Error != nil {
+			global.GvaLogger.Sugar().Errorf("股票信息入库失败:%s", save.Error)
+		}
 	}
+
 }

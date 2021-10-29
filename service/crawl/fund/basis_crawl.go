@@ -71,7 +71,7 @@ func BatchBasicCrawl() {
 		for item := range baseRowsChannel {
 			fundBasisRows = append(fundBasisRows, item)
 		}
-		if fundBasisRows != nil {
+		if len(fundBasisRows) > 0 {
 			// 保存入库
 			create := global.GvaMysqlClient.Create(fundBasisRows)
 			if create.Error != nil {

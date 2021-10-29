@@ -27,7 +27,7 @@ mysql:
   defaultStringSize: 255 # string 类型字段的默认长度
   disableDatetimePrecision: true # 禁用 datetime 精度，MySQL 5.6 之前的数据库不支持
   skipInitializeWithVersion: false # 根据当前 MySQL 版本自动配置
-  autoMigrate: true # 开启时，每次服务启动都会根据实体创建/更新表结构
+  autoMigrate: false # 开启时，每次服务启动都会根据实体创建/更新表结构
   slowSql: 50ms # 慢sql时间。单位毫秒
   logLevel: info # error、info、warn
   ignoreRecordNotFoundError: true # 是否忽略ErrRecordNotFound(未查到记录错误)
