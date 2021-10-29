@@ -1,6 +1,6 @@
 version: '3'
 networks:
-  go-env:
+  go_env:
     external: true
 services:
   app:
