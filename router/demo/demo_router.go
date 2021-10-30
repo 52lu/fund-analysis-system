@@ -42,4 +42,5 @@ func InitDemoRouter(engine *gin.Engine) {
 	}
 
 	engine.GET("/test/run",demo.Run)
+	engine.GET("/test/cron",demo.Cron)
 }
