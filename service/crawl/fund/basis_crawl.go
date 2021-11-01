@@ -47,7 +47,7 @@ func splitFundBasicList(data []dao.FilterBasicResult, groupNum int) [][]dao.Filt
 		// 每组数量是perGroupNum
 		group := []dao.FilterBasicResult{}
 		for j := 0; j < perGroupNum; j++ {
-			if index <= length-1 {
+			if index < length-1 {
 				group = append(group, data[index])
 				index++
 			}
@@ -161,7 +161,9 @@ func (f *BasisCrawl) ConvertToEntity() entity.FundBasis {
 	// 类型分割
 	typeInfo := strings.Split(f.Type, "-")
 	fundBaseEntity.MainType = typeInfo[0]
-	fundBaseEntity.SubType = typeInfo[1]
+	if len(typeInfo) > 1 {
+		fundBaseEntity.SubType = typeInfo[1]
+	}
 	// 基金公司
 	fundBaseEntity.Company = f.Company
 	// 基金经理
@@ -170,11 +172,14 @@ func (f *BasisCrawl) ConvertToEntity() entity.FundBasis {
 	fundBaseEntity.Benchmark = f.Benchmark
 	// 发布时间
 	fundBaseEntity.ReleaseDate = replaceDateChinese(f.ReleaseDate)
+	establishInfo  := strings.Split(f.EstablishDate, "/")
 	// 成立日期
-	fundBaseEntity.EstablishDate = strings.TrimSpace(replaceDateChinese(strings.Split(f.EstablishDate, "/")[0]))
+	fundBaseEntity.EstablishDate = strings.TrimSpace(replaceDateChinese(establishInfo[0]))
 	// 成立规模
-	establishShares := utils.ExtractNumberFromString(replaceDateChinese(strings.Split(f.EstablishShares, "/")[1]))
-	fundBaseEntity.EstablishShares, _ = strconv.ParseFloat(establishShares, 64)
+	if len(establishInfo) > 1 {
+		establishShares := utils.ExtractNumberFromString(replaceDateChinese(establishInfo[1]))
+		fundBaseEntity.EstablishShares, _ = strconv.ParseFloat(establishShares, 64)
+	}
 	// 管理费率
 	manageFeeRate := utils.ExtractNumberFromString(f.ManageFeeRate)
 	fundBaseEntity.ManageFeeRate, _ = strconv.ParseFloat(manageFeeRate, 64)

@@ -12,7 +12,7 @@ import (
 func initConfig() {
 	var configFile string
 	// 读取配置文件优先级: 命令行 > 默认值
-	flag.StringVar(&configFile,"c","./config.yaml","配置配置")
+	flag.StringVar(&configFile,"config","../config-local.yaml","配置配置")
 	if len(configFile) == 0 {
 		// 读取默认配置文件
 		panic("配置文件不存在！")
