@@ -7,12 +7,23 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 )
+var configFile string
+/**
+*  parseCommand
+*  @Desc：解析命令行参数
+*  @Author LiuQingHui
+*  @Date 2021-11-02 10:31:54
+**/
+func parseCommand()  {
+	// 读取配置文件优先级: 命令行 > 默认值
+	flag.StringVar(&configFile,"c","./config.yaml","配置")
+	fmt.Println("configFile:",configFile)
+	flag.Parse()
+}
 
 // ViperInit 初始化viper配置解析包，函数可接受命令行参数
 func initConfig() {
-	var configFile string
-	// 读取配置文件优先级: 命令行 > 默认值
-	flag.StringVar(&configFile,"c","./config.yaml","配置配置")
+	parseCommand()
 	if len(configFile) == 0 {
 		// 读取默认配置文件
 		panic("配置文件不存在！")
