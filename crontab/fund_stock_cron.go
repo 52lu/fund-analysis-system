@@ -20,8 +20,7 @@ var wg sync.WaitGroup
 // 每次任务抓取总数量
 var perTaskTotal = 50
 
-// 记录每次任务对应的基金code
-var fundCodeChannel = make(chan []string, perTaskTotal)
+
 
 // 定时任务启动入口
 func (c FundStockCron) Run() {
@@ -31,6 +30,8 @@ func (c FundStockCron) Run() {
 	// 开启协程分组抓取
 	// 创建数据通道
 	var dataChan = make(chan [][]entity.FundStock, perTaskTotal/pageNum)
+	// 记录每次任务对应的基金code
+	var fundCodeChannel = make(chan []string, perTaskTotal)
 	runWithGoroutine(dataChan, totalPage, pageNum)
 	// 读取通道，数据入库
 	saveToDb(dataChan)
