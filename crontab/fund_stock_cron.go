@@ -32,15 +32,15 @@ func (c FundStockCron) Run() {
 	var dataChan = make(chan [][]entity.FundStock, perTaskTotal/pageNum)
 	// 记录每次任务对应的基金code
 	var fundCodeChannel = make(chan []string, perTaskTotal)
-	runWithGoroutine(dataChan, totalPage, pageNum)
+	runWithGoroutine(dataChan,fundCodeChannel, totalPage, pageNum)
 	// 读取通道，数据入库
-	saveToDb(dataChan)
+	saveToDb(dataChan,fundCodeChannel)
 	defer close(dataChan)
 	defer close(fundCodeChannel)
 }
 
 // 开启协程分组抓取
-func runWithGoroutine(dataChan chan [][]entity.FundStock, totalPage, pageNum int) {
+func runWithGoroutine(dataChan chan [][]entity.FundStock,fundCodeChannel chan []string,totalPage, pageNum int) {
 	// 开启协程抓取
 	wg.Add(totalPage)
 	for i := 1; i <= totalPage; i++ {
@@ -72,7 +72,7 @@ func runWithGoroutine(dataChan chan [][]entity.FundStock, totalPage, pageNum int
 }
 
 // 保存入库
-func saveToDb(dataChan chan [][]entity.FundStock) {
+func saveToDb(dataChan chan [][]entity.FundStock,fundCodeChannel chan []string) {
 	// 声明基金持仓股票实体列表
 	fundStockRows := []entity.FundStock{}
 	// 声明股票实体列表
