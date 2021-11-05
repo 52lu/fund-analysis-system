@@ -34,13 +34,12 @@ func (c FundStockCron) Run() {
 	runWithGoroutine(dataChan, totalPage, pageNum)
 	// 读取通道，数据入库
 	saveToDb(dataChan)
+	defer close(dataChan)
+	defer close(fundCodeChannel)
 }
 
 // 开启协程分组抓取
 func runWithGoroutine(dataChan chan [][]entity.FundStock, totalPage, pageNum int) {
-	// 延迟关闭chan
-	defer close(dataChan)
-	defer close(fundCodeChannel)
 	// 开启协程抓取
 	wg.Add(totalPage)
 	for i := 1; i <= totalPage; i++ {
